@@ -326,4 +326,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { threshold: 0.5 });
         typeObserver.observe(el);
     });
+
+    // ── KVKK Cookie Consent Banner ──
+    const cookieBanner = document.createElement("div");
+    cookieBanner.className = "cookie-banner";
+    cookieBanner.innerHTML = `
+        <div class="cookie-content">
+            <p>Sizlere daha iyi hizmet sunabilmek için sitemizde çerezler kullanılmaktadır. Detaylı bilgi için <a href="gizlilik-politikasi.html">Gizlilik ve Çerez Politikamızı</a> inceleyebilirsiniz.</p>
+            <div class="cookie-actions">
+                <button class="btn btn-primary btn-sm btn-ripple" id="accept-cookies">Kabul Et</button>
+            </div>
+        </div>
+    `;
+    
+    if (!localStorage.getItem("cookies_accepted")) {
+        document.body.appendChild(cookieBanner);
+        setTimeout(() => cookieBanner.classList.add("is-visible"), 100);
+    }
+
+    document.body.addEventListener("click", (e) => {
+        if (e.target.id === "accept-cookies") {
+            localStorage.setItem("cookies_accepted", "true");
+            cookieBanner.classList.remove("is-visible");
+            setTimeout(() => cookieBanner.remove(), 400);
+        }
+    });
 });
